@@ -1,81 +1,88 @@
-import { createSignal, onMount, For } from "solid-js";
+import { createSignal, createMemo } from "solid-js";
 
-export default function Home() {
-  const [mandates, setMandates] = createSignal([]);
+export default function OptionTrading() {
+  // Initialize signals with default values
+  const [underlying, setUnderlying] = createSignal(100);
+  const [strike, setStrike] = createSignal(100);
+  const [premium, setPremium] = createSignal(10);
+  const [optionType, setOptionType] = createSignal("call"); // "call" or "put"
 
-  // Fetch mandates from the back end
-  const fetchMandates = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/mandates");
-      const data = await res.json();
-      setMandates(data);
-    } catch (error) {
-      console.error("Error fetching mandates:", error);
+  // Calculate payoff using a memo so it updates automatically when inputs change.
+  const payoff = createMemo(() => {
+    const u = parseFloat(underlying());
+    const s = parseFloat(strike());
+    const p = parseFloat(premium());
+    // For a call option: max(u - s, 0) - premium
+    // For a put option:  max(s - u, 0) - premium
+    if (optionType() === "call") {
+      return Math.max(u - s, 0) - p;
+    } else {
+      return Math.max(s - u, 0) - p;
     }
-  };
-
-  // Lock a given position for trader "trader1"
-  const lockPosition = async (mandateId: string, positionId: number) => {
-    try {
-      await fetch("http://localhost:5000/lockPosition", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ mandateId, positionId, traderId: "trader1" }),
-      });
-      // Refresh mandates after locking a position
-      fetchMandates();
-    } catch (error) {
-      console.error("Error locking position:", error);
-    }
-  };
-
-  onMount(() => {
-    fetchMandates();
   });
 
   return (
-    <section class="p-8">
-      <h2 class="text-2xl mb-4">Crude Oil Options Mandates</h2>
-      <For each={mandates()}>
-        {(mandate) => (
-          <div class="bg-slate-200 text-slate-700 p-4 rounded mb-4">
-            <h3 class="text-xl mb-2">
-              Mandate ID: {mandate.id.substring(0, 8)}
-            </h3>
-            <p>
-              Put Strike: {mandate.putStrike}, Lower Put Strike:{" "}
-              {mandate.lowerPutStrike}, Max Cost: USD {mandate.maxCost}/barrel
-            </p>
-            <div class="mt-4">
-              <h4 class="font-semibold mb-2">Positions:</h4>
-              <For each={mandate.positions}>
-                {(position) => (
-                  <div class="flex items-center justify-between my-2">
-                    <span>
-                      Position {position.id} - Status: {position.status}{" "}
-                      {position.lockedBy &&
-                        `(Locked by ${position.lockedBy})`}
-                    </span>
-                    {position.status === "open" && (
-                      <button
-                        type="button"
-                        class="bg-blue-500 text-white px-3 py-1 rounded"
-                        onClick={() =>
-                          lockPosition(mandate.id, position.id)
-                        }
-                      >
-                        Lock
-                      </button>
-                    )}
-                  </div>
-                )}
-              </For>
-            </div>
-          </div>
-        )}
-      </For>
+    <section class="bg-slate-200 text-slate-700 p-8 rounded-md">
+      <h2 class="text-2xl mb-4">Option Trading Simulator</h2>
+      <p class="mb-4">Calculate the payoff of an option trading strategy by adjusting the parameters below:</p>
+
+      <div class="mb-4">
+        <label class="block mb-1">Underlying Price:</label>
+        <input
+          type="number"
+          class="border rounded p-1"
+          value={underlying()}
+          onInput={(e) => setUnderlying(e.currentTarget.value)}
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-1">Strike Price:</label>
+        <input
+          type="number"
+          class="border rounded p-1"
+          value={strike()}
+          onInput={(e) => setStrike(e.currentTarget.value)}
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-1">Premium:</label>
+        <input
+          type="number"
+          class="border rounded p-1"
+          value={premium()}
+          onInput={(e) => setPremium(e.currentTarget.value)}
+        />
+      </div>
+
+      <div class="mb-4">
+        <span class="block mb-1">Option Type:</span>
+        <label class="mr-2">
+          <input
+            type="radio"
+            name="optionType"
+            value="call"
+            checked={optionType() === "call"}
+            onInput={() => setOptionType("call")}
+          />
+          Call
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="optionType"
+            value="put"
+            checked={optionType() === "put"}
+            onInput={() => setOptionType("put")}
+          />
+          Put
+        </label>
+      </div>
+
+      <div class="mt-4 p-4 bg-white rounded shadow">
+        <strong>Calculated Payoff:</strong> {payoff()}
+      </div>
     </section>
   );
 }
