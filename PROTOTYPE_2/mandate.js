@@ -410,7 +410,7 @@ setInterval(updateTimers, 1000);
 
 // Navigate back to homepage
 function goHome() {
-  window.location.href = "homepage.html";
+  window.location.href = "index.html";
 }
 
 // Listen for storage events to update in real-time if changed by trader page
