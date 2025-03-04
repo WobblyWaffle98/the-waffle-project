@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trader - Options Mandate Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Trader - Options Mandate Tracker</h1>
+      <div id="currentTraderDisplay" class="trader-info">Logged in as: </div>
+    </header>
+    <main>
+      <!-- Open Orders Section (Trader can lock these orders) -->
+      <section id="openOrders" class="orders-section">
+        <h2>Open Orders</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Trade Id</th>
+                <th>Contract Month</th>
+                <th>Max Premium ($)</th>
+                <th>Volume/Clip</th>
+                <th>Leg Details</th>
+                <th>Time Left</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Locked Orders Section (Trader can fill or return these orders) -->
+      <section id="lockedOrders" class="orders-section" style="display: none;">
+        <h2>Locked Orders </h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Trade Id</th>
+                <th>Contract Month</th>
+                <th>Max Premium ($)</th>
+                <th>Volume/Clip</th>
+                <th>Leg Details</th>
+                <th>Time Left</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="lockedOrdersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tab Navigation to switch between Open and Locked orders -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="openOrders">Open Orders</button>
+        <button class="tab-btn" data-tab="lockedOrders">Locked Orders</button>
+      </div>
+
+      <div>
+        <button onclick="location.href='homepage.html';" class="btn-home">Back to Home</button>
+      </div>
+    </main>
+  </div>
+  <script src="trader.js"></script>
+</body>
+</html>

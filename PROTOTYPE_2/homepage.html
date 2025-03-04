@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Options Mandate Tracker - Home</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- External stylesheet containing your provided CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #2E2E2E;
+      color: #ecf0f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #03BFB5;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Role Options */
+    .role-options {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .role-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      border: 2px solid #03BFB5;
+      border-radius: 12px;
+      background-color: #3a3a3a;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 200px;
+      text-align: center;
+    }
+
+    .role-option:hover {
+      background-color: #1e242a;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .role-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #03BFB5;
+      transition: transform 0.3s ease;
+    }
+
+    .role-option:hover .role-icon {
+      transform: scale(1.1);
+    }
+
+    .role-label {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #ecf0f1;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background-color: #3a3a3a;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      animation: slideIn 0.3s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-content h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #03BFB5;
+    }
+
+    .modal-content input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #03BFB5;
+      border-radius: 6px;
+      background-color: #2E2E2E;
+      color: #ecf0f1;
+      margin: 10px 0;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .modal-content input[type="password"]:focus {
+      border-color: #018076;
+      outline: none;
+    }
+
+    .modal-content button {
+      margin-top: 10px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #03BFB5;
+      color: #2E2E2E;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #018076;
+      transform: translateY(-2px);
+    }
+
+    #errorMsg {
+      color: #e74c3c;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .trader-id-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #03BFB5;
+      border-radius: 6px;
+      background-color: #2E2E2E;
+      color: #ecf0f1;
+      margin: 0;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .trader-id-input:focus {
+      border-color: #018076;
+      outline: none;
+    }
+
+    #traderIdContainer {
+      margin-top: 10px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Add some spacing between elements */
+    #passwordInput {
+      margin-bottom: 10px;
+    }
+
+    #errorMsg {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to Options Mandate Tracker</h1>
+    </header>
+    <main>
+      <div class="role-options">
+        <!-- Mandate Giver Option -->
+        <div class="role-option" onclick="openModal('mandate')">
+          <div class="role-icon">&#128188;</div> <!-- Briefcase icon -->
+          <div class="role-label">Mandate Giver</div>
+        </div>
+        <!-- Trader Option -->
+        <div class="role-option" onclick="openModal('trader')">
+          <div class="role-icon">&#128200;</div> <!-- Chart icon -->
+          <div class="role-label">Trader</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Password Modal -->
+<div id="passwordModal" class="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle">Enter Password</h2>
+    <input type="password" id="passwordInput" placeholder="Password">
+    <!-- Improved trader ID container styling -->
+    <div id="traderIdContainer" style="display: none; margin-top: 10px;">
+      <input type="text" id="traderIdInput" placeholder="Your Trader ID" class="trader-id-input">
+    </div>
+    <div id="errorMsg">Incorrect password. Please try again.</div>
+    <button onclick="submitPassword()">Submit</button>
+  </div>
+</div>
+
+  <script>
+    let selectedRole = '';
+
+// Show the modal and update title based on role
+function openModal(role) {
+  selectedRole = role;
+  document.getElementById('passwordModal').style.display = 'flex';
+  document.getElementById('modalTitle').textContent =
+    role === 'mandate' ? 'Enter Mandate Giver Password' : 'Enter Trader Password';
+  document.getElementById('passwordInput').value = '';
+  document.getElementById('errorMsg').style.display = 'none';
+  
+  // Show trader ID input only for trader login
+  const traderIdContainer = document.getElementById('traderIdContainer');
+  traderIdContainer.style.display = role === 'trader' ? 'block' : 'none';
+}
+
+// Check password and redirect to the corresponding page
+function submitPassword() {
+  const password = document.getElementById('passwordInput').value;
+  const passwords = {
+    mandate: 'mandate123',
+    trader: 'trader123'
+  };
+
+  if (password === passwords[selectedRole]) {
+    if (selectedRole === 'trader') {
+      const traderId = document.getElementById('traderIdInput').value.trim();
+      if (!traderId) {
+        document.getElementById('errorMsg').textContent = 'Please enter your Trader ID';
+        document.getElementById('errorMsg').style.display = 'block';
+        return;
+      }
+      // Store trader ID in session storage
+      sessionStorage.setItem('traderId', traderId);
+      window.location.href = 'trader.html';
+    } else {
+      window.location.href = 'mandate.html';
+    }
+  } else {
+    document.getElementById('errorMsg').style.display = 'block';
+  }
+}
+  </script>
+</body>
+</html>

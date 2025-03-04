@@ -1,0 +1,313 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2E2E2E;
+    color: #ecf0f1;
+    line-height: 1.6;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #3a3a3a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Header */
+  header h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #03BFB5;
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+  }
+  
+  /* Form Styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+  }
+  
+  .form-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ecf0f1;
+    font-size: 0.9rem;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 12px;
+    border: 1px solid #03BFB5;
+    border-radius: 6px;
+    background-color: #2E2E2E;
+    color: #ecf0f1;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+    font-size: 1rem;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #018076;
+    box-shadow: 0 0 8px rgba(3, 191, 181, 0.5);
+  }
+  
+  /* Button Styling */
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    font-weight: 500;
+  }
+  
+  .btn-primary {
+    background-color: #03BFB5;
+    color: #2E2E2E;
+    align-self: flex-start;
+  }
+  
+  .btn-primary:hover {
+    background-color: #018076;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(3, 191, 181, 0.4);
+  }
+  
+  .btn-secondary {
+    background-color: transparent;
+    color: #03BFB5;
+    border: 2px solid #03BFB5;
+    align-self: flex-start;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #03BFB5;
+    color: #2E2E2E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(3, 191, 181, 0.4);
+  }
+  
+  /* Option Leg Styling */
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .leg label {
+    font-weight: 400;
+    margin: 0;
+    color: #ecf0f1;
+  }
+  
+  .leg input,
+  .leg select {
+    padding: 8px;
+    border: 1px solid #03BFB5;
+    border-radius: 4px;
+    background-color: #2E2E2E;
+    color: #ecf0f1;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+  
+  .leg input:focus,
+  .leg select:focus {
+    border-color: #018076;
+    box-shadow: 0 0 8px rgba(3, 191, 181, 0.5);
+  }
+  
+  .leg .remove-leg {
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.3s, color 0.3s;
+  }
+  
+  .leg .remove-leg:hover {
+    transform: scale(1.1);
+    color: #c0392b;
+  }
+  
+  /* Tab Navigation */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .tab-btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #03BFB5;
+    color: #2E2E2E;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+  
+  .tab-btn.active {
+    background-color: #018076;
+  }
+  
+  /* Orders Section */
+  .orders-section h2 {
+    text-align: center;
+    color: #03BFB5;
+    font-weight: 500;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Table Styling */
+  .table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead {
+    background-color: #03BFB5;
+  }
+  
+  thead th {
+    padding: 12px;
+    color: #2E2E2E;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  tbody tr {
+    background-color: #1e242a;
+    transition: background-color 0.3s;
+  }
+  
+  tbody tr:hover {
+    background-color: #3e566e;
+  }
+  
+  tbody td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #2E2E2E;
+    color: #ecf0f1;
+  }
+  
+  /* Action Button Styling within Table */
+  .lock-btn,
+  .fill-btn,
+  .return-btn,
+  .delete-btn {
+    padding: 8px 12px;
+    margin: 0 2px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .lock-btn {
+    background-color: #26D07C;
+    color: #2E2E2E;
+  }
+  
+  .lock-btn:hover {
+    background-color: #1FAA69;
+    transform: translateY(-2px);
+  }
+  
+  .fill-btn {
+    background-color: #FFC107;
+    color: #2E2E2E;
+  }
+  
+  .fill-btn:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+  }
+  
+  .return-btn {
+    background-color: #9b59b6;
+    color: #ecf0f1;
+  }
+  
+  .return-btn:hover {
+    background-color: #8e44ad;
+    transform: translateY(-2px);
+  }
+  
+  .delete-btn {
+    background-color: #e74c3c;
+    color: #ecf0f1;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .form-row {
+      flex-direction: column;
+    }
+  
+    .container {
+      padding: 20px;
+      margin: 20px auto;
+    }
+  
+    header h1 {
+      font-size: 2rem;
+    }
+  
+    .orders-section h2 {
+      font-size: 1.5rem;
+    }
+  
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
