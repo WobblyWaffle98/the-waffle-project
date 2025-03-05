@@ -6,7 +6,7 @@
   <title>Mandate Giver - Options Mandate Tracker</title>
   <!-- Using Google Fonts for a modern look -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../css/styles.css">
   <style>
     /* Tab styling */
     .tabs {
@@ -241,12 +241,16 @@
         </div>
       </section>
 
-      <div>
+      <div class="button-container">
+        <button onclick="goToVizPage()" class="btn-home">View Volume Chart</button>
         <button onclick="goHome()" class="btn-home">Back to Home</button>
+        <button id="resetStorage" class="btn-danger">Reset Orders</button>
       </div>
+      
+      
     </main>
   </div>
-  <script src="mandate.js"></script>
+  <script src="../js/mandate.js"></script>
   
 </body>
 </html>

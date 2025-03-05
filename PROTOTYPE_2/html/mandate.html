@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandate Giver - Options Mandate Tracker</title>
+  <!-- Using Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    /* Tab styling */
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #03BFB5;
+      overflow-x: auto;
+    }
+    
+    .tab-btn {
+      padding: 10px 20px;
+      background-color: #2E2E2E;
+      color: #ecf0f1;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .tab-btn:hover {
+      background-color: #3a3a3a;
+    }
+    
+    .tab-btn.active {
+      background-color: #03BFB5;
+      color: #1a1a1a;
+    }
+    
+    /* Hide all tabs initially */
+    .orders-section {
+      display: none;
+    }
+    
+    /* Show the active tab */
+    .orders-section.active {
+      display: block;
+    }
+    
+    /* Fill details styling */
+    .fill-details {
+      background: #2a2a2a;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border-left: 3px solid #03BFB5;
+    }
+    
+    .detail-item {
+      margin-bottom: 6px;
+    }
+    
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .detail-label {
+      font-weight: 500;
+      color: #03BFB5;
+      margin-right: 5px;
+    }
+    
+    .detail-value {
+      color: #ecf0f1;
+    }
+    
+    /* Badge styling for status */
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    
+    .status-open {
+      background-color: #2980b9;
+      color: white;
+    }
+    
+    .status-locked {
+      background-color: #f39c12;
+      color: black;
+    }
+    
+    .status-filled {
+      background-color: #27ae60;
+      color: white;
+    }
+    
+    .status-expired {
+      background-color: #e74c3c;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Mandate Giver - Options Mandate Tracker</h1>
+    </header>
+    <main>
+      <!-- Order Entry Form (only for Mandate Giver) -->
+      <form id="optionsForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contractMonth">Contract Month</label>
+            <input type="month" id="contractMonth" required />
+          </div>
+          <div class="form-group">
+            <label for="maxPremium">Max Payable Premium ($)</label>
+            <input type="number" id="maxPremium" step="0.01" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="numClips">Number of Clips</label>
+            <input type="number" id="numClips" required min="0">
+          </div>
+          <div class="form-group">
+            <label for="volPerClip">Volume per Clip</label>
+            <input type="number" id="volPerClip" required min="0" step="1000" placeholder="1,000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="timerHours">Order Expiration (hours)</label>
+          <input type="number" id="timerHours" required min="1" max="100" placeholder="1">
+        </div>
+        <div class="form-group">
+          <h3>Option Legs</h3>
+          <div id="legsContainer"></div>
+          <button type="button" id="addLeg" class="btn-secondary">+ Add Leg</button>
+        </div>
+        <!-- Only Mandate Giver can add orders -->
+        <button type="submit" class="btn-primary">Add Order</button>
+      </form>
+
+      <!-- Tabs Navigation -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="openOrders">Open</button>
+        <button class="tab-btn" data-tab="lockedOrders">Locked</button>
+        <button class="tab-btn" data-tab="filledOrders">Filled</button>
+        <button class="tab-btn" data-tab="expiredOrders">Expired</button>
+      </div>
+
+      <!-- Open Orders Section -->
+      <section id="openOrders" class="orders-section active">
+        <h2>Open Orders</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Trade Id</th>
+                <th>Contract Month</th>
+                <th>Max Premium ($)</th>
+                <th>Volume/Clip</th>
+                <th>Leg Details</th>
+                <th>Time Left</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="openOrdersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Locked Orders Section -->
+      <section id="lockedOrders" class="orders-section">
+        <h2>Locked Orders</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Trade Id</th>
+                <th>Contract Month</th>
+                <th>Max Premium ($)</th>
+                <th>Volume/Clip</th>
+                <th>Leg Details</th>
+                <th>Time Left</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="lockedOrdersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Filled Orders Section -->
+      <section id="filledOrders" class="orders-section">
+        <h2>Filled Orders</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Trade Id</th>
+                <th>Contract Month</th>
+                <th>Max Premium ($)</th>
+                <th>Volume/Clip</th>
+                <th>Leg Details</th>
+                <th>Fill Details</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="filledOrdersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Expired Orders Section -->
+      <section id="expiredOrders" class="orders-section">
+        <h2>Expired Orders</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Trade Id</th>
+                <th>Contract Month</th>
+                <th>Max Premium ($)</th>
+                <th>Volume/Clip</th>
+                <th>Leg Details</th>
+                <th>Expiry Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="expiredOrdersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="button-container">
+        <button onclick="goToVizPage()" class="btn-home">View Volume Chart</button>
+        <button onclick="goHome()" class="btn-home">Back to Home</button>
+        <button id="resetStorage" class="btn-danger">Reset Orders</button>
+      </div>
+      
+      
+    </main>
+  </div>
+  <script src="../js/mandate.js"></script>
+  
+</body>
+</html>

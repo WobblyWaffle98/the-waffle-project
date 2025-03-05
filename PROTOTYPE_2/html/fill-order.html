@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fill Order - Options Mandate Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    .fill-form {
+      background: #1e242a;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #ecf0f1;
+      font-size: 0.9rem;
+    }
+    
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #03BFB5;
+      border-radius: 6px;
+      background-color: #2E2E2E;
+      color: #ecf0f1;
+      font-family: 'Roboto', sans-serif;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+      font-size: 1rem;
+    }
+    
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #018076;
+      box-shadow: 0 0 8px rgba(3, 191, 181, 0.5);
+    }
+    
+    .legs-container {
+      border: 1px solid #3a3a3a;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      background-color: #2a2a2a;
+    }
+    
+    .leg-item {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #3a3a3a;
+    }
+    
+    .leg-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .order-summary {
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #03BFB5;
+    }
+    
+    .order-summary h3 {
+      margin-top: 0;
+      border-bottom: 1px solid #3a3a3a;
+      padding-bottom: 10px;
+      color: #03BFB5;
+      font-weight: 500;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: #ecf0f1;
+    }
+    
+    .btn-submit {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: #FFC107;
+      color: #2E2E2E;
+      font-weight: 500;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .btn-submit:hover {
+      background-color: #e0a800;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+    }
+    
+    .btn-cancel {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: #e74c3c;
+      color: #ecf0f1;
+      font-weight: 500;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .btn-cancel:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+    }
+
+    h2 {
+      color: #03BFB5;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    /* Improved Toggle Switch Styles */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .toggle-label {
+      margin-right: 10px;
+      color: #ecf0f1;
+      font-weight: 500;
+      min-width: 60px;
+    }
+    
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    
+    .buy-btn {
+      background-color: rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      border-color: #2ecc71;
+    }
+    
+    .buy-btn.active {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+    
+    .sell-btn {
+      background-color: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      border-color: #e74c3c;
+    }
+    
+    .sell-btn.active {
+      background-color: #e74c3c;
+      color: #fff;
+    }
+    
+    /* Premium input row styles */
+    .premium-row {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .premium-row .form-group {
+      flex: 1;
+    }
+
+    @media (max-width: 600px) {
+      .actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn-submit, .btn-cancel {
+        width: 100%;
+      }
+      
+      .premium-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Fill Order - Options Mandate Tracker</h1>
+      <div id="currentTraderDisplay" class="trader-info">Logged in as: </div>
+    </header>
+    
+    <main>
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-item">
+          <span>Trade ID:</span>
+          <span id="orderIdDisplay"></span>
+        </div>
+        <div class="summary-item">
+          <span>Contract Month:</span>
+          <span id="contractMonthDisplay"></span>
+        </div>
+        <div class="summary-item">
+          <span>Max Premium:</span>
+          <span id="maxPremiumDisplay"></span>
+        </div>
+        <div class="summary-item">
+          <span>Volume/Clip:</span>
+          <span id="volumeDisplay"></span>
+        </div>
+      </div>
+      
+      <div class="fill-form">
+        <h2>Fill Order Details</h2>
+        
+        <div id="legsContainer" class="legs-container">
+          <!-- Legs will be added here dynamically -->
+        </div>
+        
+        <div class="form-group">
+          <label for="netPremium">Net Premium ($):</label>
+          <input type="number" id="netPremium" name="netPremium" step="0.01" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="counterparty">Counterparty:</label>
+          <select id="counterparty" name="counterparty" required>
+            <option value="">Select Counterparty</option>
+            <option value="Bank A">Bank A</option>
+            <option value="Hedge Fund B">Hedge Fund B</option>
+            <option value="Prop Firm C">Prop Firm C</option>
+            <option value="Market Maker D">Market Maker D</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="remarks">Remarks (Optional):</label>
+          <textarea id="remarks" name="remarks" rows="3"></textarea>
+        </div>
+        
+        <div class="actions">
+          <button class="btn-cancel" onclick="cancelFill()">Cancel</button>
+          <button class="btn-submit" onclick="submitFill()">Submit Fill</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    // Global variables
+    let currentOrder = null;
+    let currentTraderId = '';
+    
+    // Load trader ID from session storage
+    window.addEventListener("load", function() {
+      currentTraderId = sessionStorage.getItem('traderId') || 'Unknown';
+      document.getElementById('currentTraderDisplay').textContent = `Logged in as: ${currentTraderId}`;
+      
+      // Load the order details from sessionStorage (passed from the main page)
+      const orderId = sessionStorage.getItem('fillOrderId');
+      if (!orderId) {
+        alert('No order selected for filling.');
+        window.location.href = 'html/trader.html';
+        return;
+      }
+      
+      loadOrderDetails(orderId);
+    });
+    
+    // Load order details from localStorage
+    function loadOrderDetails(orderId) {
+      const storedOrders = localStorage.getItem("orders");
+      if (!storedOrders) {
+        alert('No orders found.');
+        window.location.href = 'html/trader.html';
+        return;
+      }
+      
+      const orders = JSON.parse(storedOrders);
+      currentOrder = orders.find(order => order.id === orderId);
+      
+      if (!currentOrder) {
+        alert('Order not found.');
+        window.location.href = 'html/trader.html';
+        return;
+      }
+      
+      if (currentOrder.status !== 'locked') {
+        alert('This order is not locked and cannot be filled.');
+        window.location.href = '../html/trader.html';
+        return;
+      }
+      
+      if (currentOrder.traderId !== currentTraderId) {
+        alert('This order is locked by another trader.');
+        window.location.href = '../html/trader.html';
+        return;
+      }
+      
+      // Display order summary
+      document.getElementById('orderIdDisplay').textContent = currentOrder.id;
+      document.getElementById('contractMonthDisplay').textContent = currentOrder.contractMonth;
+      document.getElementById('maxPremiumDisplay').textContent = `$${currentOrder.maxPremium}`;
+      document.getElementById('volumeDisplay').textContent = currentOrder.volume;
+      
+      // Create leg premium input fields with buy/sell toggles
+      const legsContainer = document.getElementById('legsContainer');
+      legsContainer.innerHTML = '';
+      
+      currentOrder.legs.forEach((leg, index) => {
+        const legDiv = document.createElement('div');
+        legDiv.className = 'leg-item';
+        legDiv.innerHTML = `
+          <div class="summary-item">
+            <strong>Leg ${index + 1}:</strong>
+            <span>${leg}</span>
+          </div>
+          <div class="toggle-container">
+            <span class="toggle-label">Action:</span>
+            <div class="toggle-switch">
+              <input type="hidden" id="legAction${index}" value="${index === 0 ? 'BUY' : 'SELL'}">
+              <div class="action-btn buy-btn ${index === 0 ? 'active' : ''}" onclick="toggleAction(${index}, 'BUY')">BUY</div>
+              <div class="action-btn sell-btn ${index === 0 ? '' : 'active'}" onclick="toggleAction(${index}, 'SELL')">SELL</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="legPremium${index}">Premium for Leg ${index + 1} ($):</label>
+            <input type="number" id="legPremium${index}" name="legPremium${index}" step="0.01" required onchange="updateNetPremium()" onkeyup="updateNetPremium()">
+          </div>
+        `;
+        legsContainer.appendChild(legDiv);
+      });
+      
+      // Initialize net premium calculation
+      updateNetPremium();
+    }
+    
+    // Toggle between BUY and SELL actions
+    function toggleAction(legIndex, action) {
+      const actionInput = document.getElementById(`legAction${legIndex}`);
+      const buyBtn = document.querySelector(`.leg-item:nth-child(${legIndex + 1}) .buy-btn`);
+      const sellBtn = document.querySelector(`.leg-item:nth-child(${legIndex + 1}) .sell-btn`);
+      
+      actionInput.value = action;
+      
+      if (action === 'BUY') {
+        buyBtn.classList.add('active');
+        sellBtn.classList.remove('active');
+      } else {
+        buyBtn.classList.remove('active');
+        sellBtn.classList.add('active');
+      }
+      
+      updateNetPremium();
+    }
+    
+    // Update net premium based on leg premiums and buy/sell toggles
+    function updateNetPremium() {
+      let netPremium = 0;
+      
+      for (let i = 0; i < currentOrder.legs.length; i++) {
+        const premiumInput = document.getElementById(`legPremium${i}`);
+        const actionInput = document.getElementById(`legAction${i}`);
+        
+        if (premiumInput.value) {
+          const premiumValue = parseFloat(premiumInput.value);
+          // If BUY is selected, subtract premium; if SELL is selected, add premium
+          if (actionInput.value === 'BUY') {
+            netPremium += premiumValue; // BUY means paying premium
+          } else {
+            netPremium -= premiumValue; // SELL means receiving premium
+          }
+        }
+      }
+      
+      // Update the net premium field
+      document.getElementById('netPremium').value = netPremium.toFixed(2);
+    }
+    
+    // Cancel fill and return to trader page
+    function cancelFill() {
+      if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+        window.location.href = '../html/trader.html';
+      }
+    }
+    
+    // Submit the fill
+    function submitFill() {
+      // Validate form
+      const netPremium = document.getElementById('netPremium').value;
+      const counterparty = document.getElementById('counterparty').value;
+      const remarks = document.getElementById('remarks').value;
+      
+      if (!netPremium) {
+        alert('Please enter premiums for all legs to calculate net premium.');
+        return;
+      }
+      
+      if (!counterparty) {
+        alert('Please select a counterparty.');
+        return;
+      }
+      
+      // Collect leg premiums and actions
+      const legDetails = [];
+      for (let i = 0; i < currentOrder.legs.length; i++) {
+        const premiumInput = document.getElementById(`legPremium${i}`);
+        const actionInput = document.getElementById(`legAction${i}`);
+        
+        if (!premiumInput.value) {
+          alert(`Please enter premium for Leg ${i + 1}.`);
+          return;
+        }
+        
+        legDetails.push({
+          premium: parseFloat(premiumInput.value),
+          action: actionInput.value
+        });
+      }
+      
+      // Update the order in localStorage
+      const storedOrders = localStorage.getItem("orders");
+      if (!storedOrders) {
+        alert('Error: Orders data not found.');
+        return;
+      }
+      
+      let orders = JSON.parse(storedOrders);
+      orders = orders.map(order => {
+        if (order.id === currentOrder.id) {
+          return { 
+            ...order, 
+            status: "filled",
+            filledTime: new Date().toLocaleString(),
+            fillDetails: {
+              netPremium: parseFloat(netPremium),
+              legDetails: legDetails,
+              counterparty: counterparty,
+              remarks: remarks
+            }
+          };
+        }
+        return order;
+      });
+      
+      localStorage.setItem("orders", JSON.stringify(orders));
+      
+      // Return to the trader page
+      alert('Order has been successfully filled!');
+      window.location.href = '../html/trader.html';
+    }
+  </script>
+</body>
+</html>

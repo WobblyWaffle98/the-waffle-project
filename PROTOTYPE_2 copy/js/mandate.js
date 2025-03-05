@@ -410,7 +410,7 @@ setInterval(updateTimers, 1000);
 
 // Navigate back to homepage
 function goHome() {
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 }
 
 // Listen for storage events to update in real-time if changed by trader page
@@ -426,5 +426,23 @@ document.addEventListener('DOMContentLoaded', function() {
   addDeleteButtonListeners();
 });
 
+// Add this function to mandate.js, near the goHome() function
+function goToVizPage() {
+  window.location.href = "volume-viz.html";
+}
 
+document.getElementById("resetStorage").addEventListener("click", function() {
+  let password = prompt("Enter password to reset orders:");
+  
+  if (password === "GCEM") {
+      if (confirm("Are you sure you want to reset all orders? This action cannot be undone.")) {
+          localStorage.removeItem("orders");
+          orders = []; // Clear the local array
+          renderOrdersByStatus(); // Refresh the display
+          alert("Orders have been reset.");
+      }
+  } else {
+      alert("Incorrect password. Reset canceled.");
+  }
+});
 

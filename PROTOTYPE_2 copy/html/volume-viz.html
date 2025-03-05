@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volume Visualization - Options Mandate Tracker</title>
+  <!-- Using Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    /* Chart container styling */
+    .chart-container {
+      background: #2E2E2E;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Legend styling */
+    .chart-legend {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin: 0 15px 10px;
+    }
+    
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      border-radius: 4px;
+    }
+    
+    .open-color { background-color: #2980b9; }
+    .locked-color { background-color: #f39c12; }
+    .filled-color { background-color: #27ae60; }
+    
+    /* Summary cards styling */
+    .summary-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .summary-card {
+      flex: 1;
+      min-width: 220px;
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 3px solid #03BFB5;
+    }
+    
+    .summary-title {
+      font-size: 14px;
+      color: #03BFB5;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .summary-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ecf0f1;
+    }
+    
+    .summary-subtext {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+    
+    /* Navigation buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .summary-cards {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Volume Visualization</h1>
+      <p>Options mandate volume by contract month</p>
+    </header>
+    
+    <main>
+      <!-- Summary Cards -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-title">Total Open Volume</div>
+          <div class="summary-value" id="openVolume">-</div>
+          <div class="summary-subtext">Across all contract months</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-title">Total Locked Volume</div>
+          <div class="summary-value" id="lockedVolume">-</div>
+          <div class="summary-subtext">Waiting to be filled</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-title">Total Filled Volume</div>
+          <div class="summary-value" id="filledVolume">-</div>
+          <div class="summary-subtext">Successfully executed</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-title">Active Contract Months</div>
+          <div class="summary-value" id="contractMonths">-</div>
+          <div class="summary-subtext">With open mandates</div>
+        </div>
+      </div>
+      
+      <!-- Chart Container -->
+      <div class="chart-container">
+        <canvas id="volumeChart" width="400" height="200"></canvas>
+        
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div class="legend-color open-color"></div>
+            <span>Open</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color locked-color"></div>
+            <span>Locked</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color filled-color"></div>
+            <span>Filled</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="nav-buttons">
+        <button onclick="location.href='../html/mandate.html';" class="btn-home">Back to Home</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Include Chart.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="..\js\volume-vis.js"></script>
+  
+</body>
+</html>

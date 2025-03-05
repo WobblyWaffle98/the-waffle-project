@@ -130,7 +130,7 @@ function markFilled(button) {
   sessionStorage.setItem('fillOrderId', uniqueID);
   
   // Redirect to the fill order page
-  window.location.href = 'fill-order.html';
+  window.location.href = '../html/fill-order.html';
 }
 
 // Return Order: update status to "open" and re-render

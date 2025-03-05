@@ -236,7 +236,7 @@
   .return-btn,
   .delete-btn {
     padding: 8px 12px;
-    margin: 0 2px;
+    margin: 0 4px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -267,6 +267,7 @@
   .return-btn {
     background-color: #9b59b6;
     color: #ecf0f1;
+    
   }
   
   .return-btn:hover {
@@ -311,6 +312,14 @@
     }
   }
 
+  /* Container styling */
+  .button-container {
+    display: flex;
+    justify-content: center; /* Center align buttons */
+    gap: 0px; /* Adds space between buttons */
+    margin-top: 40px; /* Space from elements above */
+  }
+
   .btn-home {
     display: block;
     margin: 40px auto 0; /* Adds space above the button */
@@ -329,6 +338,31 @@
     background-color: #018076;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(3, 191, 181, 0.4);
+}
+
+#resetStorage {
+  display: block;
+  margin: 40px auto 0; /* Adds space above the button */
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  background-color: #d9534f; /* Red button */
+  color: white; /* White text */
+  
+}
+
+#resetStorage:hover {
+  background-color: #c9302c; /* Darker red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 44, 6, 0.942);
+}
+
+#resetStorage:active {
+  background-color: #a52721; /* Even darker red on click */
 }
 
 .trader-info {
@@ -362,3 +396,5 @@
   font-style: italic;
   cursor: not-allowed;
 }
+
+

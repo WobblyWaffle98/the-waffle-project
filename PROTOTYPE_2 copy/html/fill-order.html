@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fill Order - Options Mandate Tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
   <style>
     .fill-form {
       background: #1e242a;
@@ -294,7 +294,7 @@
       const orderId = sessionStorage.getItem('fillOrderId');
       if (!orderId) {
         alert('No order selected for filling.');
-        window.location.href = 'trader.html';
+        window.location.href = 'html/trader.html';
         return;
       }
       
@@ -306,7 +306,7 @@
       const storedOrders = localStorage.getItem("orders");
       if (!storedOrders) {
         alert('No orders found.');
-        window.location.href = 'trader.html';
+        window.location.href = 'html/trader.html';
         return;
       }
       
@@ -315,19 +315,19 @@
       
       if (!currentOrder) {
         alert('Order not found.');
-        window.location.href = 'trader.html';
+        window.location.href = 'html/trader.html';
         return;
       }
       
       if (currentOrder.status !== 'locked') {
         alert('This order is not locked and cannot be filled.');
-        window.location.href = 'trader.html';
+        window.location.href = '../html/trader.html';
         return;
       }
       
       if (currentOrder.traderId !== currentTraderId) {
         alert('This order is locked by another trader.');
-        window.location.href = 'trader.html';
+        window.location.href = '../html/trader.html';
         return;
       }
       
@@ -414,7 +414,7 @@
     // Cancel fill and return to trader page
     function cancelFill() {
       if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
-        window.location.href = 'trader.html';
+        window.location.href = '../html/trader.html';
       }
     }
     
@@ -481,7 +481,7 @@
       
       // Return to the trader page
       alert('Order has been successfully filled!');
-      window.location.href = 'trader.html';
+      window.location.href = '../html/trader.html';
     }
   </script>
 </body>
